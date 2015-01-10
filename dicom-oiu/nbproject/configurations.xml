@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="95">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <df root="../common" name="0">
+      <df name="src">
+        <in>dicom-config.c</in>
+        <in>ini.c</in>
+        <in>my-pjlib-utils.c</in>
+        <in>my-pjmedia-utils.c</in>
+      </df>
+    </df>
+    <df root="." name="1">
+      <df name="src">
+        <in>oiu-v1.c</in>
+      </df>
+    </df>
+    <df root="../serial" name="2">
+      <df name="src">
+        <in>riuc_uart.c</in>
+      </df>
+    </df>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile.x86</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
+  <sourceRootList>
+    <Elem>.</Elem>
+    <Elem>../common</Elem>
+    <Elem>../serial</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile.x86</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>false</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <flagsDictionary>
+        <element flagsID="0" commonFlags="-g -O2"/>
+      </flagsDictionary>
+      <codeAssistance>
+      </codeAssistance>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>.</buildCommandWorkingDir>
+          <buildCommand>${MAKE} -f Makefile.x86</buildCommand>
+          <cleanCommand>${MAKE} -f Makefile.x86 clean</cleanCommand>
+          <executablePath></executablePath>
+          <cTool>
+            <incDir>
+              <pElem>/opt/pjsip/include</pElem>
+              <pElem>../common/include</pElem>
+              <pElem>include</pElem>
+              <pElem>../serial/include</pElem>
+              <pElem>.</pElem>
+            </incDir>
+            <preprocessorList>
+              <Elem>PJ_AUTOCONF=1</Elem>
+              <Elem>PJ_IS_BIG_ENDIAN=0</Elem>
+              <Elem>PJ_IS_LITTLE_ENDIAN=1</Elem>
+            </preprocessorList>
+          </cTool>
+        </makeTool>
+      </makefileType>
+      <item path="../common/src/dicom-config.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../common/src/ini.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../common/src/my-pjlib-utils.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../common/src/my-pjmedia-utils.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../serial/src/riuc_uart.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="src/oiu-v1.c" ex="false" tool="0" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>

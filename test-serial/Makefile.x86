@@ -1,0 +1,27 @@
+.PHONY: all clean
+
+CC := gcc
+
+C_DIR := ../common
+C_SRCS := my-pjlib-utils.c
+
+SERIAL_DIR := ../serial
+SERIAL_SRCS := riuc_uart.c riuc_uart_4com.c
+
+MAIN_DIR := .
+MAIN_SRCS := main.c
+
+APP := myapp-riuc
+APP4 := myapp4-riuc
+
+CFLAGS := -g $(shell pkg-config --cflags libpjproject) -I $(C_DIR)/include -I $(MAIN_DIR)/include -I $(SERIAL_DIR)/include
+LIBS := $(shell pkg-config --libs libpjproject)
+
+all: $(APP) $(APP4)
+
+include 1com.mk
+
+include 4com.mk
+
+clean:
+	rm -fr *.o *.o4 $(APP) $(APP4)

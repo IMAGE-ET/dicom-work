@@ -1,0 +1,7 @@
+[CC]: oiu-v1.o
+[CC]: my-pjlib-utils.o
+[CC]: my-pjmedia-utils.o
+[CC]: ini.o
+[CC]: dicom-config.o
+[CC]: riuc_uart.o
+[LINK]: dicom-oiu
