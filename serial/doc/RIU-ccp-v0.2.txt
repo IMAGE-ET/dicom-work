@@ -12,7 +12,7 @@ RIU card control protocol version 0.2
 	
 - Control commands (this device receive and behave accordingly) & status (this device will generate to indicate its operational state)
 
-	STATUS FORMAT: <what SIGNAL><which PORT><ON or OFF>
+	STATUS FORMAT: <what SIGNAL><which PORT><ON or OFF> (What signal: T, R, Q, L)
 
 	+ Enable TX for port #X (X is index of one interface. Can be 1, 2, 3, or 4):
             command: entxX (e.g.: entx1)
@@ -35,6 +35,19 @@ RIU card control protocol version 0.2
 	+ Disable RX for port #X
             command: disrxX (eg.: disrx1)
             effect: port #X is disabled, status: RX0 (e.g.: R10)
+
+	+ Check PTT port #X
+            command: pttX (eg.: ptt1)
+            status: LX1 (being enabled) or LX0 (being disabled) (e.g.: L11 or L10)
+	+ Check TX port #X
+            command: txX (eg.: tx1)
+            status: TX1 (being enabled) or TX01 (being disabled) (e.g.: T11 or T10)
+	+ Check RX port #X
+            command: rxX (eg.: ptt1)
+            status: RX1 (being enabled) or RX0 (being disabled) (e.g.: R11 or R10)
+	+ Check SQ port #X
+            command: sqX (eg.: sq1)
+            status: Q1X (being enabled) or QX0 (being disabled) (e.g.: Q11 or Q10)
 
 	+ When SQ signal at port X is changed from "open" --> "closed":
             status: QX0
