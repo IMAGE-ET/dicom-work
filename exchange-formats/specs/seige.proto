@@ -1,0 +1,11 @@
+syntax="proto2";
+message seige_request_t {
+    required string session_id = 1;
+    required string requester = 2;
+}
+
+message seige_response_t {
+    required string session_id = 1;
+    required int32 b_allow = 2;
+    optional string current_requester = 3;
+}
