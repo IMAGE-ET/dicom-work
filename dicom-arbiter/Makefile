@@ -55,6 +55,6 @@ $(UDPS_SRCS:.c=.o) : %.o : $(UDPS_DIR)/src/%.c
 	gcc -c -o $@ $< $(CFLAGS)
 
 clean: nano-clean proto-clean
-	rm -fr $(M_SRCS:.c=.o) $(C_SRCS:.c=.o) $(DUPSOCK_SRCS:.c=.o) $(UDPS_SRCS:.c=.o) $(APP)
+	rm -fr $(M_SRCS:.c=.o) $(C_SRCS:.c=.o) $(DUPSOCK_SRCS:.c=.o) $(UDPS_SRCS:.c=.o) $(O_SRCS:.c=.o) $(Q_SRCS:.c=.o) $(APP)
 
 full-clean: clean proto-src-clean

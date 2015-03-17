@@ -1,5 +1,0 @@
-seige_request_t.session_id max_size:20
-seige_request_t.requester max_size:20
-
-seige_response_t.session_id max_size:20
-seige_response_t.current_requester max_size:20
