@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="95">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="dicom" displayName="dicom" projectFiles="true" root="..">
+      <logicalFolder name="common" displayName="common" projectFiles="true">
+        <logicalFolder name="include" displayName="include" projectFiles="true">
+          <itemPath>../common/include/dicom-config.h</itemPath>
+        </logicalFolder>
+        <logicalFolder name="src" displayName="src" projectFiles="true">
+          <itemPath>../common/src/dicom-config.c</itemPath>
+          <itemPath>../common/src/ini.c</itemPath>
+          <itemPath>../common/src/my-pjlib-utils.c</itemPath>
+          <itemPath>../common/src/my-pjmedia-utils.c</itemPath>
+        </logicalFolder>
+      </logicalFolder>
+      <logicalFolder name="serial" displayName="serial" projectFiles="true">
+        <logicalFolder name="src" displayName="src" projectFiles="true">
+          <itemPath>../serial/src/riuc_uart.c</itemPath>
+        </logicalFolder>
+      </logicalFolder>
+    </logicalFolder>
+    <df root="." name="0">
+      <df name="src">
+        <in>main.c</in>
+      </df>
+    </df>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile.x86</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
+  <sourceRootList>
+    <Elem>.</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile.x86</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>false</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <flagsDictionary>
+        <element flagsID="0" commonFlags="-std=c99"/>
+      </flagsDictionary>
+      <codeAssistance>
+      </codeAssistance>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>.</buildCommandWorkingDir>
+          <buildCommand>${MAKE} -f Makefile.x86</buildCommand>
+          <cleanCommand>${MAKE} -f Makefile.x86 clean</cleanCommand>
+          <executablePath></executablePath>
+        </makeTool>
+      </makefileType>
+      <item path="../common/src/dicom-config.c" ex="false" tool="0" flavor2="3">
+        <cTool flags="0">
+          <incDir>
+            <pElem>../common/include</pElem>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+      </item>
+      <item path="../common/src/ini.c" ex="false" tool="0" flavor2="3">
+        <cTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+      </item>
+      <item path="../common/src/my-pjlib-utils.c" ex="false" tool="0" flavor2="3">
+        <cTool flags="0">
+          <incDir>
+            <pElem>/opt/pjsip/include/pj</pElem>
+            <pElem>/opt/pjsip/include</pElem>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+      </item>
+      <item path="../common/src/my-pjmedia-utils.c" ex="false" tool="0" flavor2="3">
+        <cTool flags="0">
+          <incDir>
+            <pElem>/opt/pjsip/include/pj</pElem>
+            <pElem>/opt/pjsip/include/pjmedia</pElem>
+            <pElem>/opt/pjsip/include/pjmedia-audiodev</pElem>
+            <pElem>/opt/pjsip/include</pElem>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+      </item>
+      <item path="../serial/src/riuc_uart.c" ex="false" tool="0" flavor2="3">
+      </item>
+      <folder path="0">
+        <cTool>
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>/opt/pjsip/include/pj</pElem>
+            <pElem>../common/include</pElem>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+      </folder>
+      <folder path="dicom/common">
+        <cTool>
+          <incDir>
+            <pElem>../common/src</pElem>
+          </incDir>
+        </cTool>
+      </folder>
+      <folder path="dicom/serial">
+        <cTool>
+          <incDir>
+            <pElem>../serial/src</pElem>
+            <pElem>/opt/pjsip/include/pj</pElem>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+      </folder>
+      <item path="src/main.c" ex="false" tool="0" flavor2="3">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>

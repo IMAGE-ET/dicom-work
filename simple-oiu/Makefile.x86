@@ -1,0 +1,53 @@
+.PHONY: all clean
+
+CC := gcc
+
+DICOM_NANOPB := $(shell cd ../../nanopb;pwd)
+DICOM_PBASE_DIR := $(shell cd ../exchange-formats;pwd)
+
+MAIN_DIR := .
+MAIN_SRCS := main.c
+
+C_DIR := ../common
+C_SRCS := my-pjlib-utils.c my-pjmedia-utils.c ini.c dicom-config.c
+
+SERIAL_DIR := ../serial
+SERIAL_SRCS := riuc_uart.c
+
+DUPSOCK_DIR := ../duplex-socket
+DUPSOCK_SRCS := duplex-socket.c
+
+APP := simple-oiu
+
+CFLAGS := $(CFLAGS) -g $(shell pkg-config --cflags libpjproject) -I $(C_DIR)/include -I $(MAIN_DIR)/include -I $(SERIAL_DIR)/include -I $(DUPSOCK_DIR)/include
+LIBS := $(shell pkg-config --libs libpjproject)
+
+
+all: $(APP)
+
+include ../exchange-formats/dicom-proto.mk
+
+$(APP): $(MAIN_SRCS:.c=.o) $(C_SRCS:.c=.o) $(SERIAL_SRCS:.c=.o) $(DICOM_PROTO_SRCS) $(DUPSOCK_SRCS:.c=.o)
+	@echo [LINK]: $@
+	$(CC) -o $@ $^ $(LIBS)
+
+$(MAIN_SRCS:.c=.o) : %.o : $(MAIN_DIR)/src/%.c
+	@echo [CC]: $@
+	@$(CC) -o $@ -c $< $(CFLAGS)
+
+$(SERIAL_SRCS:.c=.o) : %.o : $(SERIAL_DIR)/src/%.c
+	@echo [CC]: $@
+	@$(CC) -o $@ -c $< $(CFLAGS)
+
+$(C_SRCS:.c=.o) : %.o : $(C_DIR)/src/%.c
+	@echo [CC]: $@
+	@$(CC) -o $@ -c $< $(CFLAGS)
+
+$(DUPSOCK_SRCS:.c=.o) : %.o : $(DUPSOCK_DIR)/src/%.c
+	@echo [CC]: $@
+	@$(CC) -o $@ -c $< $(CFLAGS)
+
+clean: proto-clean
+	rm -fr *.o $(APP)
+
+full-clean: clean proto-src-clean

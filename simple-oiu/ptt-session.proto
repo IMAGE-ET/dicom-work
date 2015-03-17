@@ -1,0 +1,5 @@
+syntax="proto2";
+message PTTSession {
+    required string ipaddr = 1;
+    required int32 port = 2;
+}

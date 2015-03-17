@@ -1,0 +1,5 @@
+/bin/sh: line 0: cd: ../../nanopb: No such file or directory
+make: pkg-config: Command not found
+make: pkg-config: Command not found
+../exchange-formats/dicom-proto.mk:2: /Volumes/DATA/ramdisks/dicom/simple-oiu/extra/nanopb.mk: No such file or directory
+make: *** No rule to make target `/Volumes/DATA/ramdisks/dicom/simple-oiu/extra/nanopb.mk'.  Stop.
