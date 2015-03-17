@@ -1,16 +1,16 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
-#include <termios.h>
+//#include <termios.h>
 #include <pjlib.h>
 #include "my-pjlib-utils.h"
+#include "serial_utils.h"
 
 volatile int onPTT;
 volatile int offPTT;
 
 volatile int fLED;
 volatile int fSQ;
-volatile int fQuit;
 
 typedef struct _uart_status_t {
     int ptt;
@@ -25,42 +25,8 @@ struct {
     int f_on; // on or off
 } parser;
 
-int riuc_fd;
-
 void (*on_riuc_status)(void *data);
 void (*on_riuc_error)(int error_code);
-void (*on_riuc_data_received)(char *buffer, int nbytes);
-
-pj_status_t open_serial(char* portdev, int *p_fd) {
-    //*p_fd = open(portdev, O_RDWR | O_NOCTTY | O_NONBLOCK);
-    *p_fd = open(portdev, O_RDWR | O_NOCTTY);
-    if( (*p_fd) < 0 ) {
-        PJ_LOG(3, (__FILE__, "Cannot open port: %s", strerror(errno)));
-        return PJ_SUCCESS - 100;
-    }
-    fcntl(*p_fd, F_SETFL, 0);
-    return PJ_SUCCESS;
-}
-
-void config_serial(struct termios *options, int fd) {
-    tcgetattr(fd, options);
-
-    cfsetispeed(options, B9600);
-    cfsetospeed(options, B9600);
-
-    options->c_cflag |= (CREAD |CLOCAL);
-    options->c_cflag &= ~CSIZE; /* Mask the character size bits */
-    options->c_cflag |= CS8;    /* Select 8 data bits */
-    options->c_cflag &= ~CRTSCTS;
-    options->c_iflag &= ~(IXON | IXOFF | IXANY);
-    //options->c_lflag |= (ICANON | ECHO | ECHOE); // Canonical mode
-
-    options->c_lflag &= ~(ICANON | ECHO); // RAW mode
-    options->c_cc[VMIN] = 0;
-    options->c_cc[VTIME] = 0; // measured in 0.1 second
-
-    tcsetattr(fd, TCSANOW, options);
-}
 
 inline int parser_is_ptt() {
     return parser.l0s1 == 0;
@@ -134,17 +100,6 @@ void on_riuc_data_received_default(char *buffer, int nbytes) {
     }
 }
 
-void serial_read_and_parse(int fd) {
-    int nbytes;
-    char buffer[10];
-    memset(buffer, 0, sizeof(buffer));
-    nbytes = read(fd, buffer, sizeof(buffer));
-    if(nbytes > 0) {
-        on_riuc_data_received(buffer, nbytes);
-        //on_riuc_status(&uart_status);
-    }
-}
-
 void on_ptt(int fd) {
     int nbytes;
     PJ_LOG(3, (__FILE__, "on_ptt()"));
@@ -166,52 +121,29 @@ void probSQ(int fd) {
     nbytes = write(fd, "chksq\r", 6);
 }
 
-int do_thing(void *data) {
-    //char *portdev = "/dev/cu.usbserial";
-    //char *portdev = "/dev/ttyO1";
-    
-    pj_thread_desc desc;
-    pj_thread_t **thread;
-
-    char *port_dev = (char *)data;
-    struct termios options;
-    CHECK(__FILE__, open_serial(port_dev, &riuc_fd));
-    config_serial(&options, riuc_fd);
-
-    // CHECK(__FILE__, pj_init());
-
-    // pj_thread_register("riuc_thread", desc, thread);
-
-    fLED = 0;
-    fSQ = 0;
-    fQuit = 0;
-    while(!fQuit) {
-        serial_read_and_parse(riuc_fd);
-        if (fLED) {
-            fLED = 0;
-            probLED(riuc_fd);
-        }
-        if (fSQ) {
-            fSQ = 0;
-            probSQ(riuc_fd);
-        }
-        if (onPTT) {
-            onPTT = 0;
-            on_ptt(riuc_fd);
-        }
-        if (offPTT) {
-            offPTT = 0;
-            off_ptt(riuc_fd);
-        }
-        pj_thread_sleep(100);
+void riuc_process_command(int fd) {
+    if (fLED) {
+        fLED = 0;
+        probLED(fd);
     }
-
-    close(riuc_fd);
-    return 0;
+    if (fSQ) {
+        fSQ = 0;
+        probSQ(fd);
+    }
+    if (onPTT) {
+        onPTT = 0;
+        on_ptt(fd);
+    }
+    if (offPTT) {
+        offPTT = 0;
+        off_ptt(fd);
+    }
 }
 
 void riuc_init(void (*cb)(void *)) {
-    on_riuc_data_received = on_riuc_data_received_default;
+    on_serial_data_received = on_riuc_data_received_default;
+    process_command = riuc_process_command;
+
     if( cb == NULL ) 
         on_riuc_status = on_riuc_status_default;
     else 
@@ -219,12 +151,13 @@ void riuc_init(void (*cb)(void *)) {
 }
 
 void riuc_start(pj_pool_t *pool, char *port_dev, pj_thread_t **thread) {
-    pj_thread_create(pool, "serial_thread", do_thing, port_dev, PJ_THREAD_DEFAULT_STACK_SIZE, 0, thread);
+    fLED = 0;
+    fSQ = 0;
+    serial_start(pool, port_dev, thread);
 }
 
 void riuc_end(pj_thread_t *thread) {
-    fQuit = 1;
-    pj_thread_join(thread);
+    serial_end(thread);
 }
 
 void riuc_probe_sq() {

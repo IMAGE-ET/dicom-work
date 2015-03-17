@@ -21,10 +21,6 @@ int main() {
     udps_init(&udps, 33333, pool, &clone_data);
     udps_start(&udps);
     
-//    pj_thread_sleep(30 * 1000);
-//    while (1) {
-//        pj_thread_sleep(30 * 1000);
-//    }
     pj_thread_join(udps.snd_thread);
 
     udps_end(&udps);

@@ -22,7 +22,7 @@ int main() {
 
     struct timeval tv_begin, tv_end, tv_diff;
 
-    pj_log_set_level(4);
+    pj_log_set_level(3);
     CHECK(__FILE__, pj_init());
     pj_bzero(buffer, sizeof(buffer));
     CHECK_R( __FILE__, pj_sock_socket(PJ_AF_INET, PJ_SOCK_DGRAM, 0, &sock) );

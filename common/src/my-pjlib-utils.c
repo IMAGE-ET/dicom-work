@@ -22,9 +22,18 @@ void setup_addr_with_host_and_port(pj_sockaddr_in *paddr, const char *host, int 
 }
 
 pj_status_t setup_udp_socket(int lport, pj_sock_t *sock, pj_sockaddr_in *paddr) {
+    pj_sockaddr_in addr;
 	CHECK_R( __FILE__, pj_sock_socket(PJ_AF_INET, PJ_SOCK_DGRAM, 0, sock) );
-    setup_addr_with_port(paddr, lport);
-	CHECK_R( __FILE__, pj_sock_bind(*sock, paddr, sizeof(pj_sockaddr_in)) );
+    setup_addr_with_port(&addr, lport);
+	CHECK_R( __FILE__, pj_sock_bind(*sock, &addr, sizeof(pj_sockaddr_in)) );
+    return PJ_SUCCESS;
+}
+
+pj_status_t udp_socket(int lport, pj_sock_t *sock) {
+    pj_sockaddr_in addr;
+	CHECK_R( __FILE__, pj_sock_socket(PJ_AF_INET, PJ_SOCK_DGRAM, 0, sock) );
+    setup_addr_with_port(&addr, lport);
+	CHECK_R( __FILE__, pj_sock_bind(*sock, &addr, sizeof(pj_sockaddr_in)) );
     return PJ_SUCCESS;
 }
 

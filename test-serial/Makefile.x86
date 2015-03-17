@@ -6,7 +6,7 @@ C_DIR := ../common
 C_SRCS := my-pjlib-utils.c
 
 SERIAL_DIR := ../serial
-SERIAL_SRCS := riuc_uart.c riuc_uart_4com.c
+SERIAL_SRCS := riuc_uart.c riuc_uart_4com.c serial_utils.c
 
 MAIN_DIR := .
 MAIN_SRCS := main.c

@@ -1,4 +1,6 @@
+#include "serial_utils.h"
 #include "riuc_uart.h"
+
 #define N_RIUC 4
 #define RIUC_SIGNAL_PTT 1
 #define RIUC_SIGNAL_SQ 2
@@ -206,7 +208,8 @@ void on_riuc4_data_received_default(char *buffer, int nbytes) {
 }
 
 void riuc4_init(void (*cb)(void *)) {
-    on_riuc_data_received = on_riuc4_data_received_default;
+    on_serial_data_received = on_riuc4_data_received_default;
+    process_command = riuc_process_command;
     on_riuc_error = on_riuc4_error_default;
     if( cb == NULL ) 
         on_riuc_status = on_riuc4_status_default;
